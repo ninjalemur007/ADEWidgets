@@ -8,9 +8,23 @@ Text Domain: ade16
 
 
 /* ---------------------------------------------------------- *
- * GLOBAL CONSTANTS
+ * GLOBAL CONSTANTS & UNIVERSALS & UTILITIES
  * ---------------------------------------------------------- */
  $originalblogid = get_current_blog_id(); // get current blog ID before entering function
+
+ /* ADD IMAGE SIZES */
+add_action( 'init', 'features_image_sizes');
+function features_image_sizes() {
+    add_image_size( 'features-image-largest', 1300, 749, true ); // hard crop, 16:9
+    add_image_size( 'features-image-small', 480, 270, true ); // hard crop, 16:9
+}
+
+add_action( 'init', 'announcements_image_sizes');
+function announcements_image_sizes() {
+    add_image_size( 'announcements-image-largest', 717, 538, true ); // hard crop, 16:9
+    add_image_size( 'announcements-image-small', 200, 150, true ); // hard crop, 16:9
+}
+
 
 
 /* ---------------------------------------------------------- *
@@ -66,6 +80,14 @@ if ( ! is_admin() ) {
         'announcements_menu', // slug for menu
         'announcements_menu_output'  // function to call
       );
+      add_submenu_page( //Headlines
+        'ade_homepage_menu', //top-menu slug
+        'ADE Homepage Headlines Settings', // title in menu
+        'Headlines', // page title
+        'administrator', // permissions level
+        'headlines_menu', // slug for menu
+        'headlines_menu_output'  // function to call
+      );
       add_submenu_page( //Post ID Lookup
         'ade_homepage_menu', //top-menu slug
         'Posts Lookup', // title in menu
@@ -110,11 +132,20 @@ if ( ! is_admin() ) {
           'features_post_1' // get this from add_settings_section  $section_slug,
         );
 
-      //Page = Features, Section = Post 1, Field = Select Post
+      //Page = Features, Section = Post 1, Field = Enter Post ID
         add_settings_field(
           'ade16_features_1_2', //ID with ade16_ prefix
           'Enter Post ID', // field title
           'ade16_features_1_2_callback',  //field callback function
+          'features_menu', //  $menu_page_slug - should be $menu_slug from do_settings_sections()
+          'features_post_1' // get this from add_settings_section  $section_slug,
+        );
+
+      //Page = Features, Section = Post 1, Field = Last Updated
+        add_settings_field(
+          'ade16_features_1_3', //ID with ade16_ prefix
+          'Last Updated', // field title
+          'ade16_features_1_3_callback',  //field callback function
           'features_menu', //  $menu_page_slug - should be $menu_slug from do_settings_sections()
           'features_post_1' // get this from add_settings_section  $section_slug,
         );
@@ -146,6 +177,15 @@ if ( ! is_admin() ) {
            'features_post_2' // get this from add_settings_section  $section_slug,
          );
 
+         //Page = Features, Section = Post 2, Field = Last Updated
+           add_settings_field(
+             'ade16_features_2_3', //ID with ade16_ prefix
+             'Last Updated', // field title
+             'ade16_features_2_3_callback',  //field callback function
+             'features_menu', //  $menu_page_slug - should be $menu_slug from do_settings_sections()
+             'features_post_2' // get this from add_settings_section  $section_slug,
+           );
+
      // FEATURES POST 3
         // Page = Features, Section = Post 3
           add_settings_section(
@@ -173,6 +213,15 @@ if ( ! is_admin() ) {
             'features_post_3' // get this from add_settings_section  $section_slug,
           );
 
+          //Page = Features, Section = Post 3, Field = Last Updated
+            add_settings_field(
+              'ade16_features_3_3', //ID with ade16_ prefix
+              'Last Updated', // field title
+              'ade16_features_3_3_callback',  //field callback function
+              'features_menu', //  $menu_page_slug - should be $menu_slug from do_settings_sections()
+              'features_post_3' // get this from add_settings_section  $section_slug,
+            );
+
     // FEATURES POST 4
        // Page = Features, Section = Post 4
          add_settings_section(
@@ -199,6 +248,15 @@ if ( ! is_admin() ) {
            'features_menu', //  $menu_page_slug - should be $menu_slug from do_settings_sections()
            'features_post_4' // get this from add_settings_section  $section_slug,
          );
+
+         //Page = Features, Section = Post 4, Field = Last Updated
+           add_settings_field(
+             'ade16_features_4_3', //ID with ade16_ prefix
+             'Last Updated', // field title
+             'ade16_features_4_3_callback',  //field callback function
+             'features_menu', //  $menu_page_slug - should be $menu_slug from do_settings_sections()
+             'features_post_4' // get this from add_settings_section  $section_slug,
+           );
 
  /*** ANNOUNCEMENTS PAGE ***/
 
@@ -235,6 +293,16 @@ if ( ! is_admin() ) {
            'announcements_post_1' // get this from add_settings_section  $section_slug,
          );
 
+       //Page = Announcements, Section = Post 1, Field = Last Updated
+         add_settings_field(
+           'ade16_announcements_1_3', //ID with ade16_ prefix
+           'Last Updated', // field title
+           'ade16_announcements_1_3_callback',  //field callback function
+           'announcements_menu', //  $menu_page_slug - should be $menu_slug from do_settings_sections()
+           'announcements_post_1' // get this from add_settings_section  $section_slug,
+         );
+
+
      // ANNOUNCEMENTS POST 2
         // Page = Announcements, Section = Post 2
           add_settings_section(
@@ -262,6 +330,15 @@ if ( ! is_admin() ) {
             'announcements_post_2' // get this from add_settings_section  $section_slug,
           );
 
+        //Page = Announcements, Section = Post 2, Field = Last Updated
+          add_settings_field(
+            'ade16_announcements_2_3', //ID with ade16_ prefix
+            'Last Updated', // field title
+            'ade16_announcements_2_3_callback',  //field callback function
+            'announcements_menu', //  $menu_page_slug - should be $menu_slug from do_settings_sections()
+            'announcements_post_2' // get this from add_settings_section  $section_slug,
+          );
+
       // ANNOUNCEMENTS POST 3
          // Page = Announcements, Section = Post 3
            add_settings_section(
@@ -280,7 +357,7 @@ if ( ! is_admin() ) {
              'announcements_post_3' // get this from add_settings_section  $section_slug,
            );
 
-         //Page = Announcements, Section = Post 1, Field = Select Post
+         //Page = Announcements, Section = Post 3, Field = Select Post
            add_settings_field(
              'ade16_announcements_3_2', //ID with ade16_ prefix
              'Enter Post ID', // field title
@@ -288,6 +365,15 @@ if ( ! is_admin() ) {
              'announcements_menu', //  $menu_page_slug - should be $menu_slug from do_settings_sections()
              'announcements_post_3' // get this from add_settings_section  $section_slug,
            );
+
+           //Page = Announcements, Section = Post 3, Field = Last Updated
+             add_settings_field(
+               'ade16_announcements_3_3', //ID with ade16_ prefix
+               'Last Updated', // field title
+               'ade16_announcements_3_3_callback',  //field callback function
+               'announcements_menu', //  $menu_page_slug - should be $menu_slug from do_settings_sections()
+               'announcements_post_3' // get this from add_settings_section  $section_slug,
+             );
 
      // ANNOUNCEMENTS POST 4
         // Page = Announcements, Section = Post 4
@@ -316,6 +402,15 @@ if ( ! is_admin() ) {
             'announcements_post_4' // get this from add_settings_section  $section_slug,
           );
 
+        //Page = Announcements, Section = Post 4, Field = Last Updated
+          add_settings_field(
+            'ade16_announcements_4_3', //ID with ade16_ prefix
+            'Last Updated', // field title
+            'ade16_announcements_4_3_callback',  //field callback function
+            'announcements_menu', //  $menu_page_slug - should be $menu_slug from do_settings_sections()
+            'announcements_post_4' // get this from add_settings_section  $section_slug,
+          );
+
 
   /*** Post ID PAGE ***/
 
@@ -329,7 +424,7 @@ if ( ! is_admin() ) {
      // Page = Post ID Settings, Section = Post ID
        add_settings_section(
          'post_id_settings', //$id -- slug used in settings fields  - $section_slug
-         'Select Blog', // readable title on screen
+         'List Posts', // readable title on screen
          'post_id_blog_callback', // function that echos content under Title
          'post_id_menu' //  $menu_page_slug / slug name of the settings page to show section
        );
@@ -351,6 +446,50 @@ if ( ! is_admin() ) {
          'post_id_menu', //  $menu_page_slug - should be $menu_slug from do_settings_sections()
          'post_id_settings' // get this from add_settings_section  $section_slug,
        );
+
+ /*** HEADLINES PAGE ***/
+
+        //register the below settings
+       register_setting(
+         'headlines_settings',
+         'headlines_settings'
+       );  // JUST KEEP THESE THE SAME
+
+    // HEADLINES WIDGET
+       // Page = Headlines, Section = headlines_widget
+         add_settings_section(
+           'headlines_widget', //$id -- slug used in settings fields  - $section_slug
+           'Headlines Widget', // readable title on screen
+           'headlines_widget_callback', // function that echos content under Title
+           'headlines_menu' //  $menu_page_slug / slug name of the settings page to show section
+         );
+
+       //Page = Headlines, Section = headlines_widget, Field = Select Blog
+         add_settings_field(
+           'ade16_headlines_1_1', //ID with ade16_ prefix
+           'Select Blog', // field title
+           'ade16_headlines_1_1_callback',  //field callback function
+           'headlines_menu', //  $menu_page_slug - should be $menu_slug from do_settings_sections()
+           'headlines_widget' // get this from add_settings_section  $section_slug,
+         );
+
+       //Page = Headlines, Section = headlines_widget, Field = Category
+         add_settings_field(
+           'ade16_headlines_1_2', //ID with ade16_ prefix
+           'Enter Category Slug', // field title
+           'ade16_headlines_1_2_callback',  //field callback function
+           'headlines_menu', //  $menu_page_slug - should be $menu_slug from do_settings_sections()
+           'headlines_widget' // get this from add_settings_section  $section_slug,
+         );
+
+       //Page = Headlines, Section = headlines_widget, Field = Number Posts
+         add_settings_field(
+           'ade16_headlines_1_3', //ID with ade16_ prefix
+           'Enter Number Posts', // field title
+           'ade16_headlines_1_3_callback',  //field callback function
+           'headlines_menu', //  $menu_page_slug - should be $menu_slug from do_settings_sections()
+           'headlines_widget' // get this from add_settings_section  $section_slug,
+         );
 
 
   } // end function ade16_features_init
@@ -438,6 +577,21 @@ if ( ! is_admin() ) {
           echo $html;
         } //end ade16_features_1_2_callback
 
+        function ade16_features_1_3_callback() {
+          //get stored value for ade16_features_1_3
+            $setting = (array) get_option( 'features_settings');
+            $current_post_field = 'ade16_features_1_3'; //get current post setting
+            $lastdate = esc_attr( $setting[$current_post_field] ); //get current post setting value
+            $newdate = date("F j, Y");
+            $now = time();
+            $then = strtotime($lastdate);
+            $age = $now - $then;
+            $age = floor($age / (60 * 60 * 24) );
+            $html = "<input type='hidden' name='features_settings[$current_post_field]' value='$newdate' />";
+            $html .= "<span class='current-choice'>This post was added to the homepage $age days ago on $lastdate</span>";
+            echo $html;
+          } //end ade16_features_1_3_callback
+
   // FEATURES POST 2
 
     function features_post_2_callback() { //Post 2 section
@@ -507,6 +661,21 @@ if ( ! is_admin() ) {
           $html .= "<span class='current-choice'>Current Post: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class='boldtitle'>".$current_post_title."</span> (ID = ".$current_post.") ";
           echo $html;
         } //end ade16_features_2_2_callback
+
+        function ade16_features_2_3_callback() {
+          //get stored value for ade16_features_2_3
+            $setting = (array) get_option( 'features_settings');
+            $current_post_field = 'ade16_features_2_3'; //get current post setting
+            $lastdate = esc_attr( $setting[$current_post_field] ); //get current post setting value
+            $newdate = date("F j, Y");
+            $now = time();
+            $then = strtotime($lastdate);
+            $age = $now - $then;
+            $age = floor($age / (60 * 60 * 24) );
+            $html = "<input type='hidden' name='features_settings[$current_post_field]' value='$newdate' />";
+            $html .= "<span class='current-choice'>This post was added to the homepage $age days ago on $lastdate</span>";
+            echo $html;
+          } //end ade16_features_2_3_callback
 
   // FEATURES POST 3
 
@@ -578,6 +747,21 @@ if ( ! is_admin() ) {
           echo $html;
         } //end ade16_features_3_2_callback
 
+        function ade16_features_3_3_callback() {
+          //get stored value for ade16_features_3_3
+            $setting = (array) get_option( 'features_settings');
+            $current_post_field = 'ade16_features_3_3'; //get current post setting
+            $lastdate = esc_attr( $setting[$current_post_field] ); //get current post setting value
+            $newdate = date("F j, Y");
+            $now = time();
+            $then = strtotime($lastdate);
+            $age = $now - $then;
+            $age = floor($age / (60 * 60 * 24) );
+            $html = "<input type='hidden' name='features_settings[$current_post_field]' value='$newdate' />";
+            $html .= "<span class='current-choice'>This post was added to the homepage $age days ago on $lastdate</span>";
+            echo $html;
+          } //end ade16_features_3_3_callback
+
   // FEATURES POST 4
 
     function features_post_4_callback() { //Post 4 section
@@ -648,6 +832,20 @@ if ( ! is_admin() ) {
           echo $html;
         } //end ade16_features_4_2_callback
 
+        function ade16_features_4_3_callback() {
+          //get stored value for ade16_features_4_3
+            $setting = (array) get_option( 'features_settings');
+            $current_post_field = 'ade16_features_4_3'; //get current post setting
+            $lastdate = esc_attr( $setting[$current_post_field] ); //get current post setting value
+            $newdate = date("F j, Y");
+            $now = time();
+            $then = strtotime($lastdate);
+            $age = $now - $then;
+            $age = floor($age / (60 * 60 * 24) );
+            $html = "<input type='hidden' name='features_settings[$current_post_field]' value='$newdate' />";
+            $html .= "<span class='current-choice'>This post was added to the homepage $age days ago on $lastdate</span>";
+            echo $html;
+          } //end ade16_features_4_3_callback
 
   /* ---------------------------------------------------------- *
    * CALLBACKS - ANNOUNCEMENTS
@@ -728,6 +926,20 @@ if ( ! is_admin() ) {
           echo $html;
         } //end ade16_announcements_1_2_callback
 
+        function ade16_announcements_1_3_callback() {
+            $setting = (array) get_option( 'announcements_settings');
+            $current_post_field = 'ade16_announcements_1_3'; //get current post setting
+            $lastdate = esc_attr( $setting[$current_post_field] ); //get current post setting value
+            $newdate = date("F j, Y");
+            $now = time();
+            $then = strtotime($lastdate);
+            $age = $now - $then;
+            $age = floor($age / (60 * 60 * 24) );
+            $html = "<input type='hidden' name='announcements_settings[$current_post_field]' value='$newdate' />";
+            $html .= "<span class='current-choice'>This announcement was added to the homepage $age days ago on $lastdate</span>";
+            echo $html;
+          }
+
   // ANNOUNCEMENTS POST 2
 
     function announcements_post_2_callback() { //Post 2 section
@@ -797,6 +1009,20 @@ if ( ! is_admin() ) {
           $html .= "<span class='current-choice'>Current Post: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class='boldtitle'>".$current_post_title."</span> (ID = ".$current_post.") ";
           echo $html;
         } //end ade16_announcements_2_2_callback
+
+        function ade16_announcements_2_3_callback() {
+            $setting = (array) get_option( 'announcements_settings');
+            $current_post_field = 'ade16_announcements_2_3'; //get current post setting
+            $lastdate = esc_attr( $setting[$current_post_field] ); //get current post setting value
+            $newdate = date("F j, Y");
+            $now = time();
+            $then = strtotime($lastdate);
+            $age = $now - $then;
+            $age = floor($age / (60 * 60 * 24) );
+            $html = "<input type='hidden' name='announcements_settings[$current_post_field]' value='$newdate' />";
+            $html .= "<span class='current-choice'>This announcement was added to the homepage $age days ago on $lastdate</span>";
+            echo $html;
+          }
 
   // ANNOUNCEMENTS POST 3
 
@@ -868,6 +1094,20 @@ if ( ! is_admin() ) {
           echo $html;
         } //end ade16_announcements_3_2_callback
 
+        function ade16_announcements_3_3_callback() {
+            $setting = (array) get_option( 'announcements_settings');
+            $current_post_field = 'ade16_announcements_3_3'; //get current post setting
+            $lastdate = esc_attr( $setting[$current_post_field] ); //get current post setting value
+            $newdate = date("F j, Y");
+            $now = time();
+            $then = strtotime($lastdate);
+            $age = $now - $then;
+            $age = floor($age / (60 * 60 * 24) );
+            $html = "<input type='hidden' name='announcements_settings[$current_post_field]' value='$newdate' />";
+            $html .= "<span class='current-choice'>This announcement was added to the homepage $age days ago on $lastdate</span>";
+            echo $html;
+          }
+
   // ANNOUNCEMENTS POST 4
 
     function announcements_post_4_callback() { //Post 4 section
@@ -938,6 +1178,19 @@ if ( ! is_admin() ) {
           echo $html;
         } //end ade16_announcements_4_2_callback
 
+        function ade16_announcements_4_3_callback() {
+            $setting = (array) get_option( 'announcements_settings');
+            $current_post_field = 'ade16_announcements_4_3'; //get current post setting
+            $lastdate = esc_attr( $setting[$current_post_field] ); //get current post setting value
+            $newdate = date("F j, Y");
+            $now = time();
+            $then = strtotime($lastdate);
+            $age = $now - $then;
+            $age = floor($age / (60 * 60 * 24) );
+            $html = "<input type='hidden' name='announcements_settings[$current_post_field]' value='$newdate' />";
+            $html .= "<span class='current-choice'>This announcement was added to the homepage $age days ago on $lastdate</span>";
+            echo $html;
+          }
 
   /* ---------------------------------------------------------- *
    * POST ID CALLBACKS
@@ -995,12 +1248,13 @@ if ( ! is_admin() ) {
          $postlist = get_posts( $args );
          if( $postlist ) {
 
-           $html = '<table id="postslist"><tr><th>Post Title</th><th>Post ID</th></tr>';
+           $html = '<table id="postslist"><tr><th>Post Title</th><th>Post ID</th><th>Date Updated/Published</th></tr>';
            foreach ( $postlist as $post ) :
              setup_postdata( $post );
              $PID = $post->ID;
              $PT = $post->post_title;
-             $html .= "<tr><td>".$PT."</td><td>".$PID."</td></tr>";
+             $PMD = $post->post_modified;
+             $html .= "<tr><td vertical-align:text-top;>".$PT."</td><td>".$PID."</td><td>".$PMD."</td></tr>";
            endforeach;
            wp_reset_postdata();
            $html .= '</table>';
@@ -1011,6 +1265,65 @@ if ( ! is_admin() ) {
          echo $html;
      }
 
+ /* ---------------------------------------------------------- *
+  * CALLBACKS - HEADLINES WIDGET
+  * ---------------------------------------------------------- */
+
+ // HEADLINES WIDGET
+
+   function headlines_widget_callback() { //Post 1 section
+     } //end announcements_post_1_callback()
+
+   //Fields
+     function ade16_headlines_1_1_callback() {
+       //The way this function stores the blog name and id means that when this value is queried it will first need to be parsed to extract just the ID. The reason this function stores both name and id is to make the select field more user-friendly.
+       $setting = (array) get_option( 'headlines_settings');
+       $field = 'ade16_headlines_1_1';
+       $value = esc_attr( $setting[$field] );
+
+       $html = "<select id='headlines_blog_select' name='headlines_settings[$field]' class='choose-new'>";
+       $html .= "<option id='no_blog' name='no_blog' value='no_blog'>Select Blog</option>";
+
+       if( is_multisite() ) {
+         $all_sites = get_sites();
+         foreach($all_sites as $site) {
+           $optval = $site->blogname . " (" . $site->blog_id . ")";
+           $selected = ($optval === $value) ? 'selected="selected"' : '';
+           $html .= '<option value="'.$optval.'" ' . $selected . '>'.$site->blogname.'</option>';
+         }
+       } else {
+           $site = get_bloginfo( 'name');
+           $html .= $site;
+       }
+
+       $html .= '</select>';
+       $html .= "<span class='current-choice'>Current Blog:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <span class='boldtitle'>".$value."</span>";
+
+         echo $html;
+
+       } //end ade16_announcements_1_1_callback
+
+   function ade16_headlines_1_2_callback() {
+       $setting = (array) get_option( 'headlines_settings');
+
+       $field = 'ade16_headlines_1_2'; //get current  setting
+       $current_category = esc_attr( $setting[$field] ); //get current  setting value
+
+       $html = "<input type='text' name='headlines_settings[$field]' value='$current_category'  class='choose-new'/>";
+       $html .= "<span class='current-choice'>Current Category: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class='boldtitle'>".$current_category."</span>";
+       echo $html;
+     } //end ade16_headlines_1_2_callback
+
+   function ade16_headlines_1_3_callback() {
+       $setting = (array) get_option( 'headlines_settings');
+
+       $field = 'ade16_headlines_1_3'; //get current post setting
+       $current_num = esc_attr( $setting[$field] ); //get current post setting value
+
+       $html = "<input type='text' name='headlines_settings[$field]' value='$current_num'  class='choose-new'/>";
+       $html .= "<span class='current-choice'>Current Number: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class='boldtitle'>".$current_num."</span>";
+       echo $html;
+     } //end ade16_headlines_1_3_callback
 
   /* ---------------------------------------------------------- *
    * PAGE OUTPUT - FEATURES
@@ -1088,6 +1401,30 @@ if ( ! is_admin() ) {
   <?php
   }
 
+
+  /* ---------------------------------------------------------- *
+   * PAGE OUTPUT - HEADLINES
+   * ---------------------------------------------------------- */
+
+  function headlines_menu_output(){
+  if  (!current_user_can('administrator')) { return; } //check user permissions
+  ?>
+  <div class="wrap">
+  <h1><?php echo esc_html(get_admin_page_title() ); ?></h1>
+  <p><em>Configure the Headlines Widget by indicating the correct category and desired number of posts to show.</em></p>
+    <form method="post" action="options.php" id="headlines-form" >
+      <?php
+         settings_fields( 'headlines_settings' );
+     ?>
+      <?php
+         do_settings_sections( 'headlines_menu' );
+     ?>
+      <?php submit_button('Save Settings'); ?>
+    </form>
+  </div>
+  <?php
+  }
+
 } // END admin_half()
 
 
@@ -1108,7 +1445,7 @@ function output_half(){
    * ---------------------------------------------------------- */
    function ade_homepage_output_stuff() {
      wp_enqueue_style( 'ade-homepage-output-style', plugins_url('ade-homepage/output-styles.css' ) );
-    wp_enqueue_style( 'boxslider-style', plugins_url('ade-homepage/jquery.bxslider/modified.jquery.bxslider.css' ) );
+     wp_enqueue_style( 'boxslider-style', plugins_url('ade-homepage/jquery.bxslider/modified.jquery.bxslider.css' ) );
      wp_enqueue_script( 'output-scripts', plugins_url('ade-homepage/output-scripts.js') );
      wp_enqueue_script( 'boxslider-scripts' , plugins_url('ade-homepage/jquery.bxslider/jquery.bxslider.min.js') );
    }
