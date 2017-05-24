@@ -25,6 +25,10 @@ function announcements_image_sizes() {
     add_image_size( 'announcements-image-small', 200, 150, true ); // hard crop, 16:9
 }
 
+add_action( 'init', 'box_widget_image_size');
+function box_widget_image_size() {
+    add_image_size( 'box-widget-image', 400, 270, true ); // hard crop, 16:9
+}
 
 
 /* ---------------------------------------------------------- *
@@ -66,7 +70,7 @@ if ( ! is_admin() ) {
       );
       add_submenu_page( //Featured Posts as first submenu item
         'ade_homepage_menu', // slug for parent menu '$parent_slug'
-        'ADE Homepage Featured Posts Settings', // page title for tags '$page_title'
+        'Featured Posts Settings', // page title for tags '$page_title'
         'Features', // menu title '$menu_title'
         'administrator', // permissions level '$capability'
         'features_menu', // slug for menu '$menu_slug'  --> $menu_page_slug
@@ -74,27 +78,35 @@ if ( ! is_admin() ) {
       );
       add_submenu_page( //Announcements
         'ade_homepage_menu', //top-menu slug
-        'ADE Homepage Announcements Settings', // title in menu
-        'Announcements', // page title
+        'Announcements Settings', // page title for tags '$page_title'
+        'Announcements', // menu title '$menu_title'
         'administrator', // permissions level
         'announcements_menu', // slug for menu
         'announcements_menu_output'  // function to call
       );
       add_submenu_page( //Headlines
         'ade_homepage_menu', //top-menu slug
-        'ADE Homepage Headlines Settings', // title in menu
-        'Headlines', // page title
+        'Headlines Settings', // page title for tags '$page_title'
+        'Headlines', // menu title '$menu_title'
         'administrator', // permissions level
         'headlines_menu', // slug for menu
         'headlines_menu_output'  // function to call
       );
       add_submenu_page( //Post ID Lookup
         'ade_homepage_menu', //top-menu slug
-        'Posts Lookup', // title in menu
-        'Post ID Lookup', // page title
+        'Posts Lookup', // page title for tags '$page_title'
+        'Post ID Lookup', // menu title '$menu_title'
         'administrator', // permissions level
         'post_id_menu', // slug for menu
         'post_id_menu_output'  // function to call
+      );
+      add_submenu_page( //Blog Corner
+        'ade_homepage_menu', //top-menu slug
+        'Blog Corner Settings', // page title for tags '$page_title'
+        'Blog Corner', // menu title '$menu_title'
+        'administrator', // permissions level
+        'blog_corner_menu', // slug for menu
+        'blog_corner_menu_output'  // function to call
       );
     } //end function ade16_homepage_menu
 
@@ -104,7 +116,7 @@ if ( ! is_admin() ) {
    * SETTINGS FIELDS - FEATURES
    * ---------------------------------------------------------- */
 
-  function ade16_features_init(){
+  function ade16_homepage_settings_init(){
 
 /*** FEATURES PAGE ***/
 
@@ -491,11 +503,232 @@ if ( ! is_admin() ) {
            'headlines_widget' // get this from add_settings_section  $section_slug,
          );
 
+/*** BLOG CORNER PAGE ***/
+      //register the below settings
+      register_setting(
+        'blog_corner_settings',
+        'blog_corner_settings'
+      );  // JUST KEEP THESE THE SAME
 
-  } // end function ade16_features_init
+      // BOX 1
+         // Page = Blog Corner, Section = blog_corner_box_1
+           add_settings_section(
+             'blog_corner_box_1', //$id -- slug used in settings fields  - $section_slug
+             'Blog Corner Box 1', // readable title on screen
+             'blog_corner_box_1_callback', // function that echos content under Title
+             'blog_corner_menu' //  $menu_page_slug / slug name of the settings page to show section
+           );
 
-  add_action( 'admin_init', 'ade16_features_init' );
+         //Page = Blog Corner, Section = blog_corner_box_1
+           add_settings_field(
+             'ade16_blog_corner_box_1_1', //ID with ade16_ prefix
+             'Select Blog', // field title
+             'ade16_blog_corner_box_1_1_callback',  //field callback function
+             'blog_corner_menu', //  $menu_page_slug - should be $menu_slug from do_settings_sections()
+             'blog_corner_box_1' // get this from add_settings_section  $section_slug,
+           );
 
+         //Page = Blog Corner, Section = blog_corner_box_1
+           add_settings_field(
+             'ade16_blog_corner_box_1_2', //ID with ade16_ prefix
+             'Post ID', // field title
+             'ade16_blog_corner_box_1_2_callback',  //field callback function
+             'blog_corner_menu', //  $menu_page_slug - should be $menu_slug from do_settings_sections()
+             'blog_corner_box_1' // get this from add_settings_section  $section_slug,
+           );
+
+         //Page = Blog Corner, Section = blog_corner_box_1
+           add_settings_field(
+             'ade16_blog_corner_box_1_3', //ID with ade16_ prefix
+             'Last Updated', // field title
+             'ade16_blog_corner_box_1_3_callback',  //field callback function
+             'blog_corner_menu', //  $menu_page_slug - should be $menu_slug from do_settings_sections()
+             'blog_corner_box_1' // get this from add_settings_section  $section_slug,
+           );
+
+         //Page = Blog Corner, Section = blog_corner_box_1
+           add_settings_field(
+             'ade16_blog_corner_box_1_4', //ID with ade16_ prefix
+             'Banner Icon', // field title
+             'ade16_blog_corner_box_1_4_callback',  //field callback function
+             'blog_corner_menu', //  $menu_page_slug - should be $menu_slug from do_settings_sections()
+             'blog_corner_box_1' // get this from add_settings_section  $section_slug,
+           );
+
+         //Page = Blog Corner, Section = blog_corner_box_1
+           add_settings_field(
+             'ade16_blog_corner_box_1_5', //ID with ade16_ prefix
+             'Banner Text', // field title
+             'ade16_blog_corner_box_1_5_callback',  //field callback function
+             'blog_corner_menu', //  $menu_page_slug - should be $menu_slug from do_settings_sections()
+             'blog_corner_box_1' // get this from add_settings_section  $section_slug,
+           );
+
+     // BOX 2
+        // Page = Blog Corner, Section = blog_corner_box_2
+          add_settings_section(
+            'blog_corner_box_2', //$id -- slug used in settings fields  - $section_slug
+            'Blog Corner Box 2', // readable title on screen
+            'blog_corner_box_2_callback', // function that echos content under Title
+            'blog_corner_menu' //  $menu_page_slug / slug name of the settings page to show section
+          );
+
+        //Page = Blog Corner, Section = blog_corner_box_2
+          add_settings_field(
+            'ade16_blog_corner_box_2_1', //ID with ade16_ prefix
+            'Select Blog', // field title
+            'ade16_blog_corner_box_2_1_callback',  //field callback function
+            'blog_corner_menu', //  $menu_page_slug - should be $menu_slug from do_settings_sections()
+            'blog_corner_box_2' // get this from add_settings_section  $section_slug,
+          );
+
+        //Page = Blog Corner, Section = blog_corner_box_2
+          add_settings_field(
+            'ade16_blog_corner_box_2_2', //ID with ade16_ prefix
+            'Post ID', // field title
+            'ade16_blog_corner_box_2_2_callback',  //field callback function
+            'blog_corner_menu', //  $menu_page_slug - should be $menu_slug from do_settings_sections()
+            'blog_corner_box_2' // get this from add_settings_section  $section_slug,
+          );
+
+        //Page = Blog Corner, Section = blog_corner_box_2
+          add_settings_field(
+            'ade16_blog_corner_box_2_3', //ID with ade16_ prefix
+            'Last Updated', // field title
+            'ade16_blog_corner_box_2_3_callback',  //field callback function
+            'blog_corner_menu', //  $menu_page_slug - should be $menu_slug from do_settings_sections()
+            'blog_corner_box_2' // get this from add_settings_section  $section_slug,
+          );
+
+        //Page = Blog Corner, Section = blog_corner_box_2
+          add_settings_field(
+            'ade16_blog_corner_box_2_4', //ID with ade16_ prefix
+            'Banner Icon', // field title
+            'ade16_blog_corner_box_2_4_callback',  //field callback function
+            'blog_corner_menu', //  $menu_page_slug - should be $menu_slug from do_settings_sections()
+            'blog_corner_box_2' // get this from add_settings_section  $section_slug,
+          );
+
+        //Page = Blog Corner, Section = blog_corner_box_2
+          add_settings_field(
+            'ade16_blog_corner_box_2_5', //ID with ade16_ prefix
+            'Banner Text', // field title
+            'ade16_blog_corner_box_2_5_callback',  //field callback function
+            'blog_corner_menu', //  $menu_page_slug - should be $menu_slug from do_settings_sections()
+            'blog_corner_box_2' // get this from add_settings_section  $section_slug,
+          );
+
+      // BOX 3
+         // Page = Blog Corner, Section = blog_corner_box_3
+           add_settings_section(
+             'blog_corner_box_3', //$id -- slug used in settings fields  - $section_slug
+             'Blog Corner Box 3', // readable title on screen
+             'blog_corner_box_3_callback', // function that echos content under Title
+             'blog_corner_menu' //  $menu_page_slug / slug name of the settings page to show section
+           );
+
+         //Page = Blog Corner, Section = blog_corner_box_3
+           add_settings_field(
+             'ade16_blog_corner_box_3_1', //ID with ade16_ prefix
+             'Select Blog', // field title
+             'ade16_blog_corner_box_3_1_callback',  //field callback function
+             'blog_corner_menu', //  $menu_page_slug - should be $menu_slug from do_settings_sections()
+             'blog_corner_box_3' // get this from add_settings_section  $section_slug,
+           );
+
+         //Page = Blog Corner, Section = blog_corner_box_3
+           add_settings_field(
+             'ade16_blog_corner_box_3_2', //ID with ade16_ prefix
+             'Post ID', // field title
+             'ade16_blog_corner_box_3_2_callback',  //field callback function
+             'blog_corner_menu', //  $menu_page_slug - should be $menu_slug from do_settings_sections()
+             'blog_corner_box_3' // get this from add_settings_section  $section_slug,
+           );
+
+         //Page = Blog Corner, Section = blog_corner_box_3
+           add_settings_field(
+             'ade16_blog_corner_box_3_3', //ID with ade16_ prefix
+             'Last Updated', // field title
+             'ade16_blog_corner_box_3_3_callback',  //field callback function
+             'blog_corner_menu', //  $menu_page_slug - should be $menu_slug from do_settings_sections()
+             'blog_corner_box_3' // get this from add_settings_section  $section_slug,
+           );
+
+         //Page = Blog Corner, Section = blog_corner_box_3
+           add_settings_field(
+             'ade16_blog_corner_box_3_4', //ID with ade16_ prefix
+             'Banner Icon', // field title
+             'ade16_blog_corner_box_3_4_callback',  //field callback function
+             'blog_corner_menu', //  $menu_page_slug - should be $menu_slug from do_settings_sections()
+             'blog_corner_box_3' // get this from add_settings_section  $section_slug,
+           );
+
+         //Page = Blog Corner, Section = blog_corner_box_3
+           add_settings_field(
+             'ade16_blog_corner_box_3_5', //ID with ade16_ prefix
+             'Banner Text', // field title
+             'ade16_blog_corner_box_3_5_callback',  //field callback function
+             'blog_corner_menu', //  $menu_page_slug - should be $menu_slug from do_settings_sections()
+             'blog_corner_box_3' // get this from add_settings_section  $section_slug,
+           );
+
+       // BOX 4
+          // Page = Blog Corner, Section = blog_corner_box_4
+            add_settings_section(
+              'blog_corner_box_4', //$id -- slug used in settings fields  - $section_slug
+              'Blog Corner Box 4', // readable title on screen
+              'blog_corner_box_4_callback', // function that echos content under Title
+              'blog_corner_menu' //  $menu_page_slug / slug name of the settings page to show section
+            );
+
+          //Page = Blog Corner, Section = blog_corner_box_4
+            add_settings_field(
+              'ade16_blog_corner_box_4_1', //ID with ade16_ prefix
+              'Select Blog', // field title
+              'ade16_blog_corner_box_4_1_callback',  //field callback function
+              'blog_corner_menu', //  $menu_page_slug - should be $menu_slug from do_settings_sections()
+              'blog_corner_box_4' // get this from add_settings_section  $section_slug,
+            );
+
+          //Page = Blog Corner, Section = blog_corner_box_4
+            add_settings_field(
+              'ade16_blog_corner_box_4_2', //ID with ade16_ prefix
+              'Post ID', // field title
+              'ade16_blog_corner_box_4_2_callback',  //field callback function
+              'blog_corner_menu', //  $menu_page_slug - should be $menu_slug from do_settings_sections()
+              'blog_corner_box_4' // get this from add_settings_section  $section_slug,
+            );
+
+          //Page = Blog Corner, Section = blog_corner_box_4
+            add_settings_field(
+              'ade16_blog_corner_box_4_3', //ID with ade16_ prefix
+              'Last Updated', // field title
+              'ade16_blog_corner_box_4_3_callback',  //field callback function
+              'blog_corner_menu', //  $menu_page_slug - should be $menu_slug from do_settings_sections()
+              'blog_corner_box_4' // get this from add_settings_section  $section_slug,
+            );
+
+          //Page = Blog Corner, Section = blog_corner_box_4
+            add_settings_field(
+              'ade16_blog_corner_box_4_4', //ID with ade16_ prefix
+              'Banner Icon', // field title
+              'ade16_blog_corner_box_4_4_callback',  //field callback function
+              'blog_corner_menu', //  $menu_page_slug - should be $menu_slug from do_settings_sections()
+              'blog_corner_box_4' // get this from add_settings_section  $section_slug,
+            );
+
+          //Page = Blog Corner, Section = blog_corner_box_4
+            add_settings_field(
+              'ade16_blog_corner_box_4_5', //ID with ade16_ prefix
+              'Banner Text', // field title
+              'ade16_blog_corner_box_4_5_callback',  //field callback function
+              'blog_corner_menu', //  $menu_page_slug - should be $menu_slug from do_settings_sections()
+              'blog_corner_box_4' // get this from add_settings_section  $section_slug,
+            );
+
+  } // end function ade16_homepage_settings_init
+
+  add_action( 'admin_init', 'ade16_homepage_settings_init' );
 
 
   /* ---------------------------------------------------------- *
@@ -1325,6 +1558,419 @@ if ( ! is_admin() ) {
        echo $html;
      } //end ade16_headlines_1_3_callback
 
+
+ /* ---------------------------------------------------------- *
+  * CALLBACKS - BLOG CORNER BOXES
+  * ---------------------------------------------------------- */
+
+ // BLOG CORNER BOX 1
+
+   function blog_corner_box_1_callback() {
+     }
+
+     function ade16_blog_corner_box_1_1_callback() {
+       $setting = (array) get_option( 'blog_corner_settings');
+       $field = 'ade16_blog_corner_box_1_1';
+       $value = esc_attr( $setting[$field] );
+
+       $html = "<select id='ade16_blog_corner_box_1_1_blog_select' name='blog_corner_settings[$field]' class='choose-new'>";
+       $html .= "<option id='no_blog' name='no_blog' value='no_blog'>Select Blog</option>";
+
+       if( is_multisite() ) {
+         $all_sites = get_sites();
+         foreach($all_sites as $site) {
+           $optval = $site->blogname . " (" . $site->blog_id . ")";
+           $selected = ($optval === $value) ? 'selected="selected"' : '';
+           $html .= '<option value="'.$optval.'" ' . $selected . '>'.$site->blogname.'</option>';
+         }
+       } else {
+           $site = get_bloginfo( 'name');
+           $html .= $site;
+       }
+
+       $html .= '</select>';
+       $html .= "<span class='current-choice'>Current Blog:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <span class='boldtitle'>".$value."</span>";
+
+         echo $html;
+
+       }
+
+     function ade16_blog_corner_box_1_2_callback() {
+         $setting = (array) get_option( 'blog_corner_settings');
+
+         $blog = 'ade16_blog_corner_box_1_1'; //get current blog setting
+         $blog = esc_attr( $setting[$blog] );  //get current blog setting value
+
+         $blog = strchr($blog, "(", false); //parse string for post ID
+         $blog = strchr($blog, ")", true); //parse again
+         $blog = ltrim($blog, '(' ); //parse again
+
+         $current_post_field = 'ade16_blog_corner_box_1_2'; //get current post setting
+         $current_post = esc_attr( $setting[$current_post_field] ); //get current post setting value
+
+         //////// Query to get the current post's title
+           global $originalblogid; //call global variable
+
+           if ( is_multisite() ) {
+             if ( strlen($blog) > 0 && $blog !== $originalblogid) {
+                 $blog_id = $blog; //if so, then make that the blog_id
+               } else {
+                 $blog_id = $originalblogid;
+               }
+             switch_to_blog ($blog_id); // select correct blog, whether current or other
+           }
+
+           $current_post_object = get_post( $current_post, ARRAY_A );
+           $current_post_title = $current_post_object['post_title'];
+
+           if( is_multisite() ) {
+             switch_to_blog ($originalblogid);
+           }
+         //end query
+
+         $html = "<input type='text' name='blog_corner_settings[$current_post_field]' value='$current_post'  class='choose-new'/>";
+         $html .= "<span class='current-choice'>Current Post: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class='boldtitle'>".$current_post_title."</span>  (ID = ".$current_post.")";
+         echo $html;
+       }
+
+       function ade16_blog_corner_box_1_3_callback() {
+           $setting = (array) get_option( 'blog_corner_settings');
+           $current_post_field = 'ade16_blog_corner_box_1_3'; //get current post setting
+           $lastdate = esc_attr( $setting[$current_post_field] ); //get current post setting value
+           $newdate = date("F j, Y");
+           $now = time();
+           $then = strtotime($lastdate);
+           $age = $now - $then;
+           $age = floor($age / (60 * 60 * 24) );
+           $html = "<input type='hidden' name='blog_corner_settings[$current_post_field]' value='$newdate' />";
+           $html .= "<span class='current-choice'>This post was added to the homepage $age days ago on $lastdate</span>";
+           echo $html;
+         }
+
+      function ade16_blog_corner_box_1_4_callback() {
+          $setting = (array) get_option( 'blog_corner_settings');
+          $current_post_field = 'ade16_blog_corner_box_1_4'; //get current post setting
+          $current_post = esc_attr( $setting[$current_post_field] ); //get current post setting value
+          $html = "<input type='text' name='blog_corner_settings[$current_post_field]' class='choose-new' value='$current_post' />";
+          $html .= "<span class='current-choice'>Current: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class='boldtitle'><i class='fa fa-".$current_post." fa-2x'></i></span>";
+          echo $html;
+        }
+
+      function ade16_blog_corner_box_1_5_callback() {
+          $setting = (array) get_option( 'blog_corner_settings');
+          $current_post_field = 'ade16_blog_corner_box_1_5'; //get current post setting
+          $current_post = esc_attr( $setting[$current_post_field] ); //get current post setting value
+          $html = "<input type='text' name='blog_corner_settings[$current_post_field]' class='choose-new' value='$current_post' />";
+          $html .= "<span class='current-choice'>Current: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class='boldtitle'>".$current_post."</span>";
+          echo $html;
+        }
+
+    // BLOG CORNER BOX 2
+
+      function blog_corner_box_2_callback() {
+        }
+
+        function ade16_blog_corner_box_2_1_callback() {
+          $setting = (array) get_option( 'blog_corner_settings');
+          $field = 'ade16_blog_corner_box_2_1';
+          $value = esc_attr( $setting[$field] );
+
+          $html = "<select id='ade16_blog_corner_box_2_1_blog_select' name='blog_corner_settings[$field]' class='choose-new'>";
+          $html .= "<option id='no_blog' name='no_blog' value='no_blog'>Select Blog</option>";
+
+          if( is_multisite() ) {
+            $all_sites = get_sites();
+            foreach($all_sites as $site) {
+              $optval = $site->blogname . " (" . $site->blog_id . ")";
+              $selected = ($optval === $value) ? 'selected="selected"' : '';
+              $html .= '<option value="'.$optval.'" ' . $selected . '>'.$site->blogname.'</option>';
+            }
+          } else {
+              $site = get_bloginfo( 'name');
+              $html .= $site;
+          }
+
+          $html .= '</select>';
+          $html .= "<span class='current-choice'>Current Blog:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <span class='boldtitle'>".$value."</span>";
+
+            echo $html;
+
+          }
+
+        function ade16_blog_corner_box_2_2_callback() {
+            $setting = (array) get_option( 'blog_corner_settings');
+
+            $blog = 'ade16_blog_corner_box_2_1'; //get current blog setting
+            $blog = esc_attr( $setting[$blog] );  //get current blog setting value
+
+            $blog = strchr($blog, "(", false); //parse string for post ID
+            $blog = strchr($blog, ")", true); //parse again
+            $blog = ltrim($blog, '(' ); //parse again
+
+            $current_post_field = 'ade16_blog_corner_box_2_2'; //get current post setting
+            $current_post = esc_attr( $setting[$current_post_field] ); //get current post setting value
+
+            //////// Query to get the current post's title
+              global $originalblogid; //call global variable
+
+              if ( is_multisite() ) {
+                if ( strlen($blog) > 0 && $blog !== $originalblogid) {
+                    $blog_id = $blog; //if so, then make that the blog_id
+                  } else {
+                    $blog_id = $originalblogid;
+                  }
+                switch_to_blog ($blog_id); // select correct blog, whether current or other
+              }
+
+              $current_post_object = get_post( $current_post, ARRAY_A );
+              $current_post_title = $current_post_object['post_title'];
+
+              if( is_multisite() ) {
+                switch_to_blog ($originalblogid);
+              }
+            //end query
+
+            $html = "<input type='text' name='blog_corner_settings[$current_post_field]' value='$current_post'  class='choose-new'/>";
+            $html .= "<span class='current-choice'>Current Post: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class='boldtitle'>".$current_post_title."</span>  (ID = ".$current_post.")";
+            echo $html;
+          }
+
+          function ade16_blog_corner_box_2_3_callback() {
+              $setting = (array) get_option( 'blog_corner_settings');
+              $current_post_field = 'ade16_blog_corner_box_2_3'; //get current post setting
+              $lastdate = esc_attr( $setting[$current_post_field] ); //get current post setting value
+              $newdate = date("F j, Y");
+              $now = time();
+              $then = strtotime($lastdate);
+              $age = $now - $then;
+              $age = floor($age / (60 * 60 * 24) );
+              $html = "<input type='hidden' name='blog_corner_settings[$current_post_field]' value='$newdate' />";
+              $html .= "<span class='current-choice'>This post was added to the homepage $age days ago on $lastdate</span>";
+              echo $html;
+            }
+
+         function ade16_blog_corner_box_2_4_callback() {
+             $setting = (array) get_option( 'blog_corner_settings');
+             $current_post_field = 'ade16_blog_corner_box_2_4'; //get current post setting
+             $current_post = esc_attr( $setting[$current_post_field] ); //get current post setting value
+             $html = "<input type='text' name='blog_corner_settings[$current_post_field]' class='choose-new' value='$current_post' />";
+             $html .= "<span class='current-choice'>Current: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class='boldtitle'><i class='fa fa-".$current_post." fa-2x'></i></span>";
+             echo $html;
+           }
+
+         function ade16_blog_corner_box_2_5_callback() {
+             $setting = (array) get_option( 'blog_corner_settings');
+             $current_post_field = 'ade16_blog_corner_box_2_5'; //get current post setting
+             $current_post = esc_attr( $setting[$current_post_field] ); //get current post setting value
+             $html = "<input type='text' name='blog_corner_settings[$current_post_field]' class='choose-new' value='$current_post' />";
+             $html .= "<span class='current-choice'>Current: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class='boldtitle'>".$current_post."</span>";
+             echo $html;
+           }
+
+     // BLOG CORNER BOX 3
+
+       function blog_corner_box_3_callback() {
+         }
+
+         function ade16_blog_corner_box_3_1_callback() {
+           $setting = (array) get_option( 'blog_corner_settings');
+           $field = 'ade16_blog_corner_box_3_1';
+           $value = esc_attr( $setting[$field] );
+
+           $html = "<select id='ade16_blog_corner_box_3_1_blog_select' name='blog_corner_settings[$field]' class='choose-new'>";
+           $html .= "<option id='no_blog' name='no_blog' value='no_blog'>Select Blog</option>";
+
+           if( is_multisite() ) {
+             $all_sites = get_sites();
+             foreach($all_sites as $site) {
+               $optval = $site->blogname . " (" . $site->blog_id . ")";
+               $selected = ($optval === $value) ? 'selected="selected"' : '';
+               $html .= '<option value="'.$optval.'" ' . $selected . '>'.$site->blogname.'</option>';
+             }
+           } else {
+               $site = get_bloginfo( 'name');
+               $html .= $site;
+           }
+
+           $html .= '</select>';
+           $html .= "<span class='current-choice'>Current Blog:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <span class='boldtitle'>".$value."</span>";
+
+             echo $html;
+
+           }
+
+         function ade16_blog_corner_box_3_2_callback() {
+             $setting = (array) get_option( 'blog_corner_settings');
+
+             $blog = 'ade16_blog_corner_box_3_1'; //get current blog setting
+             $blog = esc_attr( $setting[$blog] );  //get current blog setting value
+
+             $blog = strchr($blog, "(", false); //parse string for post ID
+             $blog = strchr($blog, ")", true); //parse again
+             $blog = ltrim($blog, '(' ); //parse again
+
+             $current_post_field = 'ade16_blog_corner_box_3_2'; //get current post setting
+             $current_post = esc_attr( $setting[$current_post_field] ); //get current post setting value
+
+             //////// Query to get the current post's title
+               global $originalblogid; //call global variable
+
+               if ( is_multisite() ) {
+                 if ( strlen($blog) > 0 && $blog !== $originalblogid) {
+                     $blog_id = $blog; //if so, then make that the blog_id
+                   } else {
+                     $blog_id = $originalblogid;
+                   }
+                 switch_to_blog ($blog_id); // select correct blog, whether current or other
+               }
+
+               $current_post_object = get_post( $current_post, ARRAY_A );
+               $current_post_title = $current_post_object['post_title'];
+
+               if( is_multisite() ) {
+                 switch_to_blog ($originalblogid);
+               }
+             //end query
+
+             $html = "<input type='text' name='blog_corner_settings[$current_post_field]' value='$current_post'  class='choose-new'/>";
+             $html .= "<span class='current-choice'>Current Post: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class='boldtitle'>".$current_post_title."</span>  (ID = ".$current_post.")";
+             echo $html;
+           }
+
+           function ade16_blog_corner_box_3_3_callback() {
+               $setting = (array) get_option( 'blog_corner_settings');
+               $current_post_field = 'ade16_blog_corner_box_3_3'; //get current post setting
+               $lastdate = esc_attr( $setting[$current_post_field] ); //get current post setting value
+               $newdate = date("F j, Y");
+               $now = time();
+               $then = strtotime($lastdate);
+               $age = $now - $then;
+               $age = floor($age / (60 * 60 * 24) );
+               $html = "<input type='hidden' name='blog_corner_settings[$current_post_field]' value='$newdate' />";
+               $html .= "<span class='current-choice'>This post was added to the homepage $age days ago on $lastdate</span>";
+               echo $html;
+             }
+
+          function ade16_blog_corner_box_3_4_callback() {
+              $setting = (array) get_option( 'blog_corner_settings');
+              $current_post_field = 'ade16_blog_corner_box_3_4'; //get current post setting
+              $current_post = esc_attr( $setting[$current_post_field] ); //get current post setting value
+              $html = "<input type='text' name='blog_corner_settings[$current_post_field]' class='choose-new' value='$current_post' />";
+              $html .= "<span class='current-choice'>Current: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class='boldtitle'><i class='fa fa-".$current_post." fa-2x'></i></span>";
+              echo $html;
+            }
+
+          function ade16_blog_corner_box_3_5_callback() {
+              $setting = (array) get_option( 'blog_corner_settings');
+              $current_post_field = 'ade16_blog_corner_box_3_5'; //get current post setting
+              $current_post = esc_attr( $setting[$current_post_field] ); //get current post setting value
+              $html = "<input type='text' name='blog_corner_settings[$current_post_field]' class='choose-new' value='$current_post' />";
+              $html .= "<span class='current-choice'>Current: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class='boldtitle'>".$current_post."</span>";
+              echo $html;
+            }
+
+        // BLOG CORNER BOX 4
+
+          function blog_corner_box_4_callback() {
+            }
+
+            function ade16_blog_corner_box_4_1_callback() {
+              $setting = (array) get_option( 'blog_corner_settings');
+              $field = 'ade16_blog_corner_box_4_1';
+              $value = esc_attr( $setting[$field] );
+
+              $html = "<select id='ade16_blog_corner_box_4_1_blog_select' name='blog_corner_settings[$field]' class='choose-new'>";
+              $html .= "<option id='no_blog' name='no_blog' value='no_blog'>Select Blog</option>";
+
+              if( is_multisite() ) {
+                $all_sites = get_sites();
+                foreach($all_sites as $site) {
+                  $optval = $site->blogname . " (" . $site->blog_id . ")";
+                  $selected = ($optval === $value) ? 'selected="selected"' : '';
+                  $html .= '<option value="'.$optval.'" ' . $selected . '>'.$site->blogname.'</option>';
+                }
+              } else {
+                  $site = get_bloginfo( 'name');
+                  $html .= $site;
+              }
+
+              $html .= '</select>';
+              $html .= "<span class='current-choice'>Current Blog:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <span class='boldtitle'>".$value."</span>";
+
+                echo $html;
+
+              }
+
+            function ade16_blog_corner_box_4_2_callback() {
+                $setting = (array) get_option( 'blog_corner_settings');
+
+                $blog = 'ade16_blog_corner_box_4_1'; //get current blog setting
+                $blog = esc_attr( $setting[$blog] );  //get current blog setting value
+
+                $blog = strchr($blog, "(", false); //parse string for post ID
+                $blog = strchr($blog, ")", true); //parse again
+                $blog = ltrim($blog, '(' ); //parse again
+
+                $current_post_field = 'ade16_blog_corner_box_4_2'; //get current post setting
+                $current_post = esc_attr( $setting[$current_post_field] ); //get current post setting value
+
+                //////// Query to get the current post's title
+                  global $originalblogid; //call global variable
+
+                  if ( is_multisite() ) {
+                    if ( strlen($blog) > 0 && $blog !== $originalblogid) {
+                        $blog_id = $blog; //if so, then make that the blog_id
+                      } else {
+                        $blog_id = $originalblogid;
+                      }
+                    switch_to_blog ($blog_id); // select correct blog, whether current or other
+                  }
+
+                  $current_post_object = get_post( $current_post, ARRAY_A );
+                  $current_post_title = $current_post_object['post_title'];
+
+                  if( is_multisite() ) {
+                    switch_to_blog ($originalblogid);
+                  }
+                //end query
+
+                $html = "<input type='text' name='blog_corner_settings[$current_post_field]' value='$current_post'  class='choose-new'/>";
+                $html .= "<span class='current-choice'>Current Post: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class='boldtitle'>".$current_post_title."</span>  (ID = ".$current_post.")";
+                echo $html;
+              }
+
+              function ade16_blog_corner_box_4_3_callback() {
+                  $setting = (array) get_option( 'blog_corner_settings');
+                  $current_post_field = 'ade16_blog_corner_box_4_3'; //get current post setting
+                  $lastdate = esc_attr( $setting[$current_post_field] ); //get current post setting value
+                  $newdate = date("F j, Y");
+                  $now = time();
+                  $then = strtotime($lastdate);
+                  $age = $now - $then;
+                  $age = floor($age / (60 * 60 * 24) );
+                  $html = "<input type='hidden' name='blog_corner_settings[$current_post_field]' value='$newdate' />";
+                  $html .= "<span class='current-choice'>This post was added to the homepage $age days ago on $lastdate</span>";
+                  echo $html;
+                }
+
+             function ade16_blog_corner_box_4_4_callback() {
+                 $setting = (array) get_option( 'blog_corner_settings');
+                 $current_post_field = 'ade16_blog_corner_box_4_4'; //get current post setting
+                 $current_post = esc_attr( $setting[$current_post_field] ); //get current post setting value
+                 $html = "<input type='text' name='blog_corner_settings[$current_post_field]' class='choose-new' value='$current_post' />";
+                 $html .= "<span class='current-choice'>Current: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class='boldtitle'><i class='fa fa-".$current_post." fa-2x'></i></span>";
+                 echo $html;
+               }
+
+             function ade16_blog_corner_box_4_5_callback() {
+                 $setting = (array) get_option( 'blog_corner_settings');
+                 $current_post_field = 'ade16_blog_corner_box_4_5'; //get current post setting
+                 $current_post = esc_attr( $setting[$current_post_field] ); //get current post setting value
+                 $html = "<input type='text' name='blog_corner_settings[$current_post_field]' class='choose-new' value='$current_post' />";
+                 $html .= "<span class='current-choice'>Current: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class='boldtitle'>".$current_post."</span>";
+                 echo $html;
+               }
+
   /* ---------------------------------------------------------- *
    * PAGE OUTPUT - FEATURES
    * ---------------------------------------------------------- */
@@ -1421,6 +2067,30 @@ if ( ! is_admin() ) {
      ?>
       <?php submit_button('Save Settings'); ?>
     </form>
+  </div>
+  <?php
+  }
+
+  /* ---------------------------------------------------------- *
+   * PAGE OUTPUT - BLOG CORNER
+   * ---------------------------------------------------------- */
+
+  function blog_corner_menu_output(){
+  if  (!current_user_can('administrator')) { return; } //check user permissions
+  ?>
+  <div class="wrap">
+  <h1><?php echo esc_html(get_admin_page_title() ); ?></h1>
+  <p><em>For each Blog Corner Box, indicate which blog and post should be displayed. The top and bottom banners for each box can also be set via this page.</em></p>
+  <form method="post" action="options.php" id="post-id-form" >
+    <?php
+       settings_fields( 'blog_corner_settings' );
+   ?>
+    <?php
+       do_settings_sections( 'blog_corner_menu' );
+   ?>
+   <?php submit_button('Save Settings'); ?>
+
+  </form>
   </div>
   <?php
   }
