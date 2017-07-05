@@ -67,10 +67,9 @@ function ade_widgets_post_query($blog, $post, $image_sizes) {
      //extract shortcode attributes
       extract( shortcode_atts( array(), $atts));
 
-
    //get settings
-     $setting = (array) get_option( 'ade_announcements_settings' );
-     $prefix = 'ade_announcements_';
+     $setting = (array) get_option( 'ade_widgets_announcements_settings' );
+     $prefix = 'ade_widgets_announcements_';
 
      $blog_1 = esc_attr( $setting[$prefix.'1_1']);
      $blog_2 = esc_attr( $setting[$prefix.'2_1']);
@@ -85,30 +84,32 @@ function ade_widgets_post_query($blog, $post, $image_sizes) {
      $announcements_images = array( 'ade-announcements-image-largest', 'ade-announcements-image-small' );
 
     //call ade_features_post_query() for each settings pair
-    $output_1 = ade_post_query($blog_1, $post_1, $announcements_images);
-    $output_2 = ade_post_query($blog_2, $post_2, $announcements_images);
-    $output_3 = ade_post_query($blog_3, $post_3, $announcements_images);
-    $output_4 = ade_post_query($blog_4, $post_4, $announcements_images);
+    $output_1 = ade_widgets_post_query($blog_1, $post_1, $announcements_images);
+    $output_2 = ade_widgets_post_query($blog_2, $post_2, $announcements_images);
+    $output_3 = ade_widgets_post_query($blog_3, $post_3, $announcements_images);
+    $output_4 = ade_widgets_post_query($blog_4, $post_4, $announcements_images);
 
      //build the boxslider object
-     $boxslider = '<div class=".ade-announcements-widget-wrap"><div id="ade-announcements-widget"><ul id="ade-announcements-slider" class="bxslider">';
+     $boxslider = '<div id="ade-widgets-announcements-widget-wrap" '.$style.'><div id="ade-widgets-announcements-widget"><ul id="ade-widgets-announcements-slider" class="bxslider">';
        $boxslider .= '<li>'.$output_1['boxslider'].'</li>';
        $boxslider .= '<li>'.$output_2['boxslider'].'</li>';
        $boxslider .= '<li>'.$output_3['boxslider'].'</li>';
        $boxslider .= '<li>'.$output_4['boxslider'].'</li>';
      $boxslider .= '</ul></div>'; //close out boxslider object
 
-    //  $pager = '<div id="announcements-pager" class="announcements-pager">';  //build the pager object
-    //    $pager .= '<a data-slide-index="0" href="" title="'.$output_1['title'].'">'.$output_1['pager'].'</a>';
-    //    $pager .= '<a data-slide-index="1" href="" title="'.$output_2['title'].'">'.$output_2['pager'].'</a>';
-    //    $pager .= '<a data-slide-index="2" href="" title="'.$output_3['title'].'">'.$output_3['pager'].'</a>';
-    //    $pager .= '<a data-slide-index="3" href="" title="'.$output_4['title'].'">'.$output_4['pager'].'</a>';
-    //  $pager .= '</div>';  //close the pager object
+     $pager = '<div id="ade-widgets-announcements-pager">';  //build the pager object
+        $pager .= '<div id="ade-widgets-announce-prev-one"></div><div id="ade-widgets-announce-pager-dots">';
+        $pager .= '<a href="" data-slide-index="0" class="ade-widgets-announce-pager-link active"><i class="fa fa-circle"></i></a>';
+        $pager .= '<a href="" data-slide-index="1" class="ade-widgets-announce-pager-link"><i class="fa fa-circle"></i></a>';
+        $pager .= '<a href="" data-slide-index="2" class="ade-widgets-announce-pager-link"><i class="fa fa-circle"></i></a>';
+        $pager .= '<a href="" data-slide-index="3" class="ade-widgets-announce-pager-link"><i class="fa fa-circle"></i></a>';
+        $pager .= '</div><div id="ade-widgets-announce-next-one"></div>';
+        $pager .= '</div></div>';  //close the pager object
 
      $final .= $boxslider;
-    //  $final .= $pager;
+     $final .= $pager;
 
-    $final .= '<div class="prev-next-wrap"><div id="announce-prev-one" class="prev"></div><div id="announce-next-one" class="next"></div></div></div>';
+
      return $final;
 
    } // END announcements_widget()
@@ -120,7 +121,7 @@ add_shortcode( 'ade-widgets-announcements', 'ade_widgets_announcements_widget');
 /* ---------------------------------------------------------- *
  * FUNCTION: HEADLINES WIDGET
  * ---------------------------------------------------------- */
-function ade_widgets_headlines_query( $blog, $category, $number ) {
+function ade_widgets_category_widget_query( $blog, $category, $number ) {
 
   global $originalblogid;
 
@@ -164,9 +165,9 @@ function ade_widgets_headlines_query( $blog, $category, $number ) {
 
     return $post_object;
 
-} //end Headlines Widget Query
+} //end
 
-function ade_widgets_headlines() {
+function ade_widgets_category_widget() {
 
   $setting = (array) get_option( 'ade_widgets_headlines_settings' );
   $prefix = 'ade_widgets_headlines_';
@@ -175,15 +176,15 @@ function ade_widgets_headlines() {
   $category = esc_attr( $setting[$prefix.'1_2']);
   $number = esc_attr( $setting[$prefix.'1_3']);
 
-  $widget_output = ade_widgets_headlines_query( $blog, $category, $number);
+  $widget_output = ade_widgets_category_widget_query( $blog, $category, $number);
 
-  $ourwidget = '<div class="category-widget"><div class="innerborder"><h3>Latest Headlines</h3><ul>'.$widget_output.'</ul></div></div>';
+  $ourwidget = '<div id="ade-widgets-category-widget"><div class="innerborder"><h3>Latest Headlines</h3><ul>'.$widget_output.'</ul></div></div>';
 
   return $ourwidget;
 }
 
 //SHORTCODE
-add_shortcode( 'ade-widgets-headlines', 'ade_widgets_headlines');
+add_shortcode( 'ade-widgets-headlines', 'ade_widgets_category_widget');
 
 
 
@@ -194,8 +195,8 @@ add_shortcode( 'ade-widgets-headlines', 'ade_widgets_headlines');
  function ade_widgets_quicklinks() {
 
 
-   $setting = (array) get_option( 'ade_quicklinks_settings' );
-   $prefix = 'ade_quicklinks_';
+   $setting = (array) get_option( 'ade_widgets_quicklinks_settings' );
+   $prefix = 'ade_widgets_quicklinks_';
 
    $icon_1 = esc_attr( $setting[$prefix.'1_1']);
    $link_1 = esc_attr( $setting[$prefix.'1_2']);
@@ -221,19 +222,21 @@ add_shortcode( 'ade-widgets-headlines', 'ade_widgets_headlines');
    $link_6 = esc_attr( $setting[$prefix.'6_2']);
    $title_6 = esc_attr( $setting[$prefix.'6_3']);
 
-   $quicklink_1 = '<div class="quicklink"><a href="'.$link_1.'" title="'.$title_1.'"><i class="fa fa-3x fa-'.$icon_1.'"></i><br><span class="quicklink-title">'.$title_1.'</span></a></div>';
-   $quicklink_2 = '<div class="quicklink"><a href="'.$link_2. '" title="'.$title_2. '"><i class="fa fa-3x fa-'.$icon_2. '"></i><br><span class="quicklink-title">'.$title_2.'</span></a></div>';
-   $quicklink_3 = '<div class="quicklink"><a href="'.$link_3. '" title="'.$title_3. '"><i class="fa fa-3x fa-'.$icon_3. '"></i><br><span class="quicklink-title">'.$title_3.'</span></a></div>';
-   $quicklink_4 = '<div class="quicklink"><a href="'.$link_4. '" title="'.$title_4. '"><i class="fa fa-3x fa-'.$icon_4. '"></i><br><span class="quicklink-title">'.$title_4.'</span></a></div>';
-   $quicklink_5 = '<div class="quicklink"><a href="'.$link_5. '" title="'.$title_5. '"><i class="fa fa-3x fa-'.$icon_5. '"></i><br><span class="quicklink-title">'.$title_5.'</span></a></div>';
-   $quicklink_6 = '<div class="quicklink"><a href="'.$link_6. '" title="'.$title_6. '"><i class="fa fa-3x fa-'.$icon_6. '"></i><br><span class="quicklink-title">'.$title_6.'</span></a></div>';
+   $quicklink_1 = '<div class="ade-widgets-quicklink"><a href="'.$link_1.'" title="'.$title_1.'"><i class="fa fa-3x fa-'.$icon_1.'"></i><br class="donotfilter"><span class="ade-widgets-quicklink-title">'.$title_1.'</span></a></div>';
+   $quicklink_2 = '<div class="ade-widgets-quicklink"><a href="'.$link_2. '" title="'.$title_2. '"><i class="fa fa-3x fa-'.$icon_2. '"></i><br class="donotfilter"><span class="ade-widgets-quicklink-title">'.$title_2.'</span></a></div>';
+   $quicklink_3 = '<div class="ade-widgets-quicklink"><a href="'.$link_3. '" title="'.$title_3. '"><i class="fa fa-3x fa-'.$icon_3. '"></i><br class="donotfilter"><span class="ade-widgets-quicklink-title">'.$title_3.'</span></a></div>';
+   $quicklink_4 = '<div class="ade-widgets-quicklink"><a href="'.$link_4. '" title="'.$title_4. '"><i class="fa fa-3x fa-'.$icon_4. '"></i><br class="donotfilter"><span class="ade-widgets-quicklink-title">'.$title_4.'</span></a></div>';
+   $quicklink_5 = '<div class="ade-widgets-quicklink"><a href="'.$link_5. '" title="'.$title_5. '"><i class="fa fa-3x fa-'.$icon_5. '"></i><br class="donotfilter"><span class="ade-widgets-quicklink-title">'.$title_5.'</span></a></div>';
+   $quicklink_6 = '<div class="ade-widgets-quicklink"><a href="'.$link_6. '" title="'.$title_6. '"><i class="fa fa-3x fa-'.$icon_6. '"></i><br class="donotfilter"><span class="ade-widgets-quicklink-title">'.$title_6.'</span></a></div>';
 
+   $quicklinks .= '<div id="ade-widgets-quicklinks" class="col-xs-12">';
   $quicklinks .= $quicklink_1;
   $quicklinks .= $quicklink_2;
   $quicklinks .= $quicklink_3;
   $quicklinks .= $quicklink_4;
   $quicklinks .= $quicklink_5;
   $quicklinks .= $quicklink_6;
+  $quicklinks .= '</div>';
 
   return $quicklinks;
  }

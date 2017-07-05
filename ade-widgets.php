@@ -1207,9 +1207,11 @@ $all_sites = get_sites( $sitesarg );
   <div class="wrap">
   <h1><?php echo esc_html(get_admin_page_title() ); ?></h1>
   <p>This widget creates a self-contained box slider showing 4 blog or event posts in the order entered below. For each slot, you may select a post from this site or any other ADE blog.</p>
+  <p><strong>NOTE: Not for use in WordPress widget areas (sidebars). Place this shortcode in your page or post content area.</strong></p>
   <p><strong>Important: Post 1 will be the post seen when the widget loads.</strong></p>
   <p><strong><em>Use the Post ID Lookup menu page to list posts for an ADE blog. Use the post IDs from that list for the Enter Post ID field below.</em></strong></p>
   <p>Place this widget on your page by using the following shortcode: <strong>[ade-widgets-announcements]</strong></p>
+  <p>The box is configured to appear <em>inline</em>, which means text will flow around it.</p>
   <p><strong>NOTE: This widget can only be configured once per subsite.</strong> You may use the widget on multiple pages using the same shortcode, but all instances will show the same posts.</p>
   <p><em>Configure each post slot as follows:
     <ol>
@@ -1266,6 +1268,8 @@ $all_sites = get_sites( $sitesarg );
   <div class="wrap">
   <h1><?php echo esc_html(get_admin_page_title() ); ?></h1>
   <p>This widget creates a self-contained box with a dynamic list of posts from the indicated blog and category(ies). You may show posts from this site or you can choose a different ADE blog from the dropdown list. The posts will show in reverse chronological order (recent first) and consist of the post title and the publication date.<p>
+  <p>The box is configured to appear <em>inline</em>, which means text will flow around it.</p>
+  <p><strong>NOTE: Not for use in WordPress widget areas (sidebars). Place this shortcode in your page or post content area.</strong></p>
   <p>Place this widget on your page by using the following shortcode: <strong>[ade-widgets-headlines]</strong></p>
   <p><strong>NOTE: This widget can only be configured once per subsite.</strong> You may use the widget on multiple pages using the same shortcode, but all instances will show the same posts.</p>
   <p><em>Configure the Headlines Widget as follows:
@@ -1298,6 +1302,8 @@ $all_sites = get_sites( $sitesarg );
   <div class="wrap">
   <h1><?php echo esc_html(get_admin_page_title() ); ?></h1>
   <p>This widget creates a single row of 6 quicklinks. Place the quicklinks row in your page with the following shortcode: <strong>[ade-widgets-quicklinks]</strong></p>
+  <p><strong>NOTE: Not for use in WordPress widget areas (sidebars). Place this shortcode in your page or post content area.</strong></p>
+  <p><strong>To Know: The row will take the entire width of the container. </strong></p>
   <p><strong>Note: You can only configure one set of quicklinks for a subsite.</strong> You may embed the same set in multiple pages using the same shortcode, but they will be they same 6 quicklinks each time.</p>
   <p><em>Configure the widget as follows:
       <ol>

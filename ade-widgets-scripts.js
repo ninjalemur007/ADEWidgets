@@ -1,12 +1,17 @@
 // Announcements Slider - bxSlider
-$(document).ready(function( $ ){
-  $('#ade-announcements-slider').bxSlider({
-      autoStart: true,
+jQuery(document).ready(function( $ ){
+  $('#ade-widgets-announcements-slider').bxSlider({
+      autoStart: false,
       controls: true,
-      nextSelector: '#announce-next-one',
-      prevSelector: '#announce-prev-one',
-      nextText: 'Keep Going <i class="fa fa-hand-o-right"></i>',
-      prevText: '<i class="fa fa-hand-o-left"></i> Go Back'
-      // pagerCustom: '#announcements-pager'
-  }); //end bxSlider() for #announcements-slider
+      nextSelector: '#ade-widgets-announce-next-one',
+      prevSelector: '#ade-widgets-announce-prev-one',
+      nextText: '<i class="fa fa-hand-o-right"></i>',
+      prevText: '<i class="fa fa-hand-o-left"></i>',
+      pagerCustom: '#ade-widgets-announcements-pager'
+  }); //end bxSlider()
+
+  $('#test').bxSlider({
+    autoStart: false,
+    controls: true
+  });
 });

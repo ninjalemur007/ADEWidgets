@@ -5,6 +5,11 @@ Updated:
 
 == Development Log ==
 
+= July 5, 2017 =
+  * Made widget containers and set sizes.
+  * Updated admin screen instructions.
+  * Finished!
+
 = July 3, 2017 =
   * Changed all function prefixes to 'ade_widgets_' to create unique namespace
 
