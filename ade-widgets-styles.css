@@ -1,18 +1,24 @@
 @import url('https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css');
 
-/*Announcements Widget*/
+/*
+Plugin Name: ADE Widgets
+Author: C. Walley, Arizona Department of Education
+Version: 1.2.0
+Updated: July 19, 2017
+*/
 
+/*Announcements Widget*/
 #ade-widgets-announcements-widget-wrap {
   min-width: 320px;
   max-width: 35vw;
-  min-height: 250px;
-  max-height: 29vw;
-  margin: 1em;
+  min-height: 240px;
+  max-height: 27vw;
+  margin-top: 1em;
   display: inline-block;
 }
 
 #ade-widgets-announcements-widget .bx-wrapper {
-  min-height: 240px;
+  min-height: 200px;
   max-height: 27vw;
 }
 
@@ -32,10 +38,12 @@
 
 #ade-widgets-announcements-widget .overlay h4 {
   color: #fff !important;
-  font-size: 90%;
+  font-size: 1.25vw;
   font-weight: 600 !important;
-  line-height: 150%;
-  vertical-align: text-top;
+  line-height: 2.25vw;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 #ade-widgets-announcements-widget .overlay a, #ade-widgets-announcements-widget .overlay a:visited{
@@ -60,15 +68,11 @@
 }
 
 #ade-widgets-announce-next-one {
-  /*width: 49.5%;*/
-  /*display: inline-block;*/
   text-align: right;
   flex: 2 1 auto;
 }
 
 #ade-widgets-announce-prev-one {
-  /*width: 49.5%;*/
-  /*display: inline-block;*/
   text-align: left;
   flex: 2 1 auto;
 }
@@ -85,28 +89,59 @@
   color: #b2b7c2 !important;
 }
 
+#stopstart {
+  flex: 2 1 auto;
+  text-align: left;
+}
+
+#stopstart .bx-controls-auto-item a {
+    display: inline-flex;
+    padding: 0 .5em;
+    text-decoration: none;
+}
+
 @media screen and (max-width:991px) {
   #ade-widgets-announcements-widget .overlay h4 {
-    font-size: 60%;
-    line-height: 150%;
+    font-size: 1.5vw;
+    line-height: 200%;
     font-weight: 400 !important;
   }
   #ade-widgets-announcements-widget-wrap {
-    min-height: 250px;
+  max-height: 39vw;
+  }
+
+  #ade-widgets-announcements-widget .bx-wrapper {
+    max-height: 27vw;
+    min-height: 240px;
   }
 
 }
 
 @media screen and (max-width:480px) {
   #ade-widgets-announcements-widget-wrap {
-    min-height: 245px;
+    max-width: 100%;
+    min-width: 100%;
+    max-height: 75vw
+    margin-top: 2vw;
+    padding:0;
+  }
+
+  #ade-widgets-announcements-widget .bx-wrapper {
+    max-width: 100%;
+    min-width: 100%;
+    max-height: 68vw;
+    min-height: 240px;
   }
   #ade-widgets-announcements-widget .overlay {
+    max-width: 100%;
+    min-width: 100%;
+    max-height: 10%;
+    min-height: 10%;
     bottom: 0;
   }
   #ade-widgets-announcements-widget .overlay h4 {
     font-size: 3.5vw;
-    line-height: 150%;
+    line-height: 200%;
   }
   #ade-widgets-announcements-pager {
       padding: 0 0.5em;
@@ -115,6 +150,18 @@
 
 
 /* Headlines / Category Widget */
+
+/*.textwidget styles are modifications for sidebar*/
+.textwidget > #ade-widgets-category-widget {
+  width: 100% !important;
+  min-width: 100%;
+  height: 20vw;
+  box-sizing: border-box;
+}
+
+.textwidget > #ade-widgets-category-widget li {
+  font-size: 85%;
+}
 
 #ade-widgets-category-widget {
   min-width: 320px;
@@ -214,5 +261,123 @@
   }
   #ade-widgets-quicklinks .ade-widgets-quicklink-title {
     font-size: 1rem;
+  }
+}
+
+
+/* BLOGCORNERWRAP --> BOX */
+
+.ade-widgets-blogbox-wrap {
+  min-width: 320px;
+  max-width: 35vw;
+  min-height: 250px;
+  max-height: 29vw;
+  margin: 1em;
+  display: inline-block;
+}
+
+.ade-widgets-blogbox {
+  min-height: 249px;
+  max-height: 29vw;
+}
+
+.ade-widgets-blogbox img {
+  height: 100%;
+  width: 100%;
+}
+
+.ade-widgets-blogbox .ade-widgets-blogbox-post {
+  width: 100%;
+  position: relative;
+  height: 85%;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.ade-widgets-blogbox .ade-widgets-blogbox-overlay {
+  width: 100%;
+  height: 10%;
+  padding: 0 .5vw;
+  bottom: 0;
+  position: absolute;
+  margin: 0;
+  background: rgba(75,75,75,.35);
+  box-sizing: border-box;
+  min-width: 0;
+}
+
+.ade-widgets-blogbox .ade-widgets-blogbox-overlay h4 {
+  color: #fff !important;
+  font-size: 1.25vw ;
+  font-weight: 400 !important;
+  line-height: 200%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ade-widgets-blogbox .ade-widgets-blogbox-overlay a, .ade-widgets-blogbox .ade-widgets-blogbox-overlay a:visited{
+  text-decoration: none;
+  color: #fff;
+}
+
+.ade-widgets-blogbox .ade-widgets-blogbox-overlay a:hover {
+  text-decoration: underline;
+  color: #fff;
+}
+
+.ade-widgets-blogbox .ade-widgets-blogbox-banner {
+  width: 100%;
+  height: 15%;
+  color: #022169;
+  padding-left: 0.5vw;
+  line-height: 200%;
+  font-weight: bold;
+  font-size: 1.5vw;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+@media screen and (max-width:991px) {
+    .ade-widgets-blogbox .ade-widgets-blogbox {
+      height: 38vw;
+    }
+    .ade-widgets-blogbox .ade-widgets-blogbox-overlay {
+      padding-left: 1vw;
+    }
+    .ade-widgets-blogbox .ade-widgets-blogbox-overlay h4 {
+      font-weight: 400 !important;
+      line-height: 200%;
+      font-size: 1.5vw;
+    }
+    #blogwrap {
+      margin-bottom: 1em;
+    }
+    .ade-widgets-blogbox .ade-widgets-blogbox-banner {
+      font-size: 2.25vw;
+    }
+  }
+
+@media screen and (max-width:767px) {
+  .ade-widgets-blogbox .ade-widgets-blogbox {
+    height: 39vw;
+  }
+}
+
+@media screen and (max-width:480px) {
+  .ade-widgets-blogbox .ade-widgets-blogbox-wrap {
+    width: 100% !important;
+  }
+  .ade-widgets-blogbox .ade-widgets-blogbox {
+    height:75vw;
+  }
+  .ade-widgets-blogbox .ade-widgets-blogbox-overlay {
+    padding-left: 2vw;
+  }
+  .ade-widgets-blogbox .ade-widgets-blogbox-overlay h4 {
+    font-size: 3vw;
+  }
+  .ade-widgets-blogbox .ade-widgets-blogbox-banner {
+    font-size: 4vw;
   }
 }

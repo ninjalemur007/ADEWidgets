@@ -1,9 +1,16 @@
 === ADE Widgets Plugin ===
 Contributors: C. Walley, Arizona Department of Education
-Version: 1.0.0
-Updated:
+Version: 1.2.0
+Updated: July 29, 2017
 
 == Development Log ==
+
+= July 19, 2017 =
+  * Added animation to Slider Box widget
+  * Renamed some menu items
+  * Added Blog Boxes widgets
+  * Added styles to make Headlines widget fit sidebar, if placed there
+  * Added field to change Headlines title
 
 = July 5, 2017 =
   * Made widget containers and set sizes.
